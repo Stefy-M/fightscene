@@ -21,3 +21,13 @@ CREATE TYPE video_status AS ENUM
  'FAILED',
  'DELETED'
 );
+
+CREATE TYPE job_status AS ENUM (
+    'QUEUED',
+    'PROCESSING',
+    'TRANSCODING',
+    'THUMBNAIL_GENERATION',
+    'UPLOADING',
+    'COMPLETED',
+    'FAILED'
+);
