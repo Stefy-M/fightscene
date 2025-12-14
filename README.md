@@ -1,86 +1,62 @@
-# 🥊 FightScene Backend API
+# FightScene Backend API
 
-Backend service for **FightScene.gg**, built using Java Spring Boot and PostgreSQL.  
-This backend will power fighter profiles, video uploads, gyms, and more as the platform evolves.
+Spring Boot + PostgreSQL backend for **FightScene.gg**. Handles fighter profiles, gyms, video uploads/processing, and authentication.
 
 ---
 
-## 🚀 Tech Stack
-- Java 21
-- Spring Boot
+## Tech Stack
+- Java 21, Spring Boot, Spring Data JPA
 - PostgreSQL
-- Spring Data JPA
-- Flyway
+- Flyway for migrations
 - Maven
 
 ---
 
-## 📦 Current Features
-- Project structure initialized  
-- Database migrations via Flyway  
-- Logging configuration  
-- Basic health endpoint  
-- Environment variable support for database credentials  
-
-More features will be added as the backend is implemented.
+## Current Status
+- Domain models for users, fighters, gyms, videos (including processing jobs).
+- Repositories and service layer skeletons; video services wired to storage/privacy/processing helpers.
+- AuthController/AuthService for signup/login (token and password verification still TODO).
+- Postgres enums mapped for `User.role` (and similar enums).
+- Health endpoint present; other controllers pending.
 
 ---
 
-## 🔧 Running Locally
-
-### 1. Create PostgreSQL Database
+## Running Locally
+1) Create the database:
 ```sql
 CREATE DATABASE fightscene;
 ```
-
-### 2. Set DB Password as Environment Variable
-**Windows PowerShell:**
-```ps
+2) Configure DB credentials (example):
+```ps1
+# PowerShell
 setx DB_PASSWORD "your-password"
 ```
-
-**macOS/Linux:**
 ```bash
+# macOS/Linux
 export DB_PASSWORD="your-password"
 ```
-
-### 3. Start the Server
-```
+3) Start the app (port 8080 by default):
+```bash
 mvn spring-boot:run
 ```
-
-Flyway will automatically apply migrations.
-
----
-
-## 🗂 Project Structure
-```
-com.fightscene.backend/
-├── config/
-├── controller/
-├── domain/
-├── dto/
-│   ├── request/
-│   └── response/
-├── exception/
-├── mapper/
-├── repository/
-├── service/
-│   └── impl/
-└── FightSceneBackendApplication.java
-```
+Flyway will apply migrations automatically.
 
 ---
 
-## 📌 Roadmap
-- Implement JPA entities  
-- Add repositories  
-- Build service layer  
-- Add controller endpoints  
-- Implement video upload workflow (S3 + CDN)  
-- Authentication & user management  
+## API Notes
+- Auth: `POST /api/auth/signup`, `POST /api/auth/login` (password check + token issuance not implemented yet).
+- Health: `/health` (or `/actuator/health` if enabled).
+- Other feature controllers (fighter, gym, video) still to be exposed.
 
 ---
 
-## 📄 License
+## Roadmap
+- Add password hashing/verification and JWT/session issuance.
+- Expose fighter/gym/video controllers and wire search.
+- Complete video upload/processing flow and storage deletion.
+- Add tests (DataJpaTest + service tests).
+
+---
+
+## License
 MIT License
