@@ -25,16 +25,14 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<AuthResponseDto> signup(@Valid @RequestBody SignupRequestDto dto) {
         User user = authService.signup(dto.email(), dto.password());
-        // TODO: generate real token (JWT/session). Placeholder null for now.
         AuthResponseDto response = new AuthResponseDto(user.getUserId(), user.getRole(), null);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDto> login(@Valid @RequestBody LoginRequestDto dto) {
-        User user = authService.login(dto.email());
-        // TODO: validate password here and generate token.
-        AuthResponseDto response = new AuthResponseDto(user.getUserId(), user.getRole(), null);
+        String token = authService.login(dto.email(), dto.password());
+        AuthResponseDto response = new AuthResponseDto(null,null,token);
         return ResponseEntity.ok(response);
     }
 }

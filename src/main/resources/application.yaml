@@ -6,7 +6,11 @@ spring:
     username: postgres
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
-
+    hikari:
+      connection-timeout: 5000        # max wait per connection attempt
+      initialization-fail-timeout: 1  # fail immediately if first connection can't be made
+      minimum-idle: 1                 # don't try to open 10 connections at boot
+      maximum-pool-size: 5
   jpa:
     hibernate:
       ddl-auto: validate
@@ -15,10 +19,11 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     open-in-view: false
-
   flyway:
     enabled: true
     baseline-on-migrate: true
+  main:
+    log-startup-info: true
 
 server:
   port: 8080
@@ -29,3 +34,18 @@ logging:
   pattern:
     console: "%d{HH:mm:ss} %-5level %logger{36} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
+  level:
+    org.springframework.boot.context: INFO
+    org.springframework.web: DEBUG
+    com.zaxxer.hikari: INFO
+
+security:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-ms: 3600000 # 1 hour
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

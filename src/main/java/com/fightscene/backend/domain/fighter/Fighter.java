@@ -47,11 +47,13 @@ public class Fighter {
 	private String nickname;
 	
 	@Enumerated(EnumType.STRING)
-	@Column( nullable = false, length = 50)
+	@JdbcTypeCode(SqlTypes.NAMED_ENUM)
+	@Column(nullable = false, length = 50, columnDefinition = "gender_enum")
 	private Gender gender;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name = "weight_class", nullable = false, length = 50)
+	@JdbcTypeCode(SqlTypes.NAMED_ENUM)
+	@Column(name = "weight_class", nullable = false, length = 50, columnDefinition = "weight_class_enum")
 	private WeightClass weightclass;
 	
 	@Column(columnDefinition= "TEXT")
